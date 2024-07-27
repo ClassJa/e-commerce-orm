@@ -6,7 +6,12 @@ class Category extends Model {}
 
 Category.init(
   {
+    // ??? How to approach (how to know what columns belong here?)
     // define columns
+    title: {
+      type: DataTypes.STRING
+    },
+    
   },
   {
     sequelize,
