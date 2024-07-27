@@ -8,10 +8,16 @@ Category.init(
   {
     // ??? How to approach (how to know what columns belong here?)
     // define columns
-    title: {
-      type: DataTypes.STRING
+    id: {
+      type: DataTypes.INTEGER,
+      autoIncrement: true,
+      allowNull: false,
+      primaryKey: true
     },
-    
+    categoryName: {
+      type: DataTypes.STRING,
+      allowNull: false
+    }
   },
   {
     sequelize,
