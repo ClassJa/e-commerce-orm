@@ -10,15 +10,18 @@ router.get('/', (req, res) => {
 });
 
 router.get('/:id', (req, res) => {
+  Category.findOne()
   // find one category by its `id` value
   // be sure to include its associated Products
 });
 
 router.post('/', (req, res) => {
+
   // create a new category
 });
 
 router.put('/:id', (req, res) => {
+  Category.update()
   // update a category by its `id` value
 });
 
