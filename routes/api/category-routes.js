@@ -4,7 +4,13 @@ const { Category, Product } = require('../../models');
 // The `/api/categories` endpoint
 
 router.get('/', (req, res) => {
-  Category.findAll()
+  try {
+    Category.findAll()
+  }
+  catch(e) {
+    res.status("Error occurred", e)
+  }
+ 
   // find all categories
   // be sure to include its associated Products
 });
@@ -21,11 +27,14 @@ router.post('/', (req, res) => {
 });
 
 router.put('/:id', (req, res) => {
-  Category.update()
+  Category.update(req.params.id, req.body)
+  // check if this the correct set-up
   // update a category by its `id` value
 });
 
 router.delete('/:id', (req, res) => {
+  res._destroy(req.params.id)
+  // check if this the correct set-up
   // delete a category by its `id` value
 });
 
