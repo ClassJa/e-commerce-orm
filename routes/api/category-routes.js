@@ -20,8 +20,12 @@ router.get('/', (req, res) => {
 
 router.get('/:id', (req, res) => {
   try {
-    Category.findOne(req.params.id)
-  }
+    Category.findOne({
+      where: {
+        id: req.params.id
+    },
+}
+)}
   catch(e) {
     res.json("Error: ", e)
   }
@@ -35,26 +39,37 @@ router.post('/', (req, res) => {
   try {
     Category.create(
       {
-        id: req.params.id,
+        // id: req.params.id,
         category_name: req.params.body.category_name
       }
     ).then((newCategory) => {
       res.json("New Category created", newCategory)
     })
   }
+  // Is this try catch block the right syntax?
   catch(e) {
     res.json("Error occured when trying to create a new category", e)
   }
- 
-
   // create a new category
 });
 
 router.put('/:id', (req, res) => {
-  Category.update(req.params.id, req.body)
-  res.json("Update completed for id: ", req.params.id)
+  Category.update({
+
+  },
+  {
+    where: {
+      id: req.params.id
+    },
+  }
+  
   // check if this the correct set-up
   // update a category by its `id` value
+)
+.catch((e) => {
+  res.json("Error occurred", e)
+})
+res.json("Update completed for id: ", req.params.id)
 });
 
 router.delete('/:id', (req, res) => {
