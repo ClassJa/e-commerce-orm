@@ -22,6 +22,7 @@ module.exports = {
   Category,
   Tag,
   ProductTag,
+  router
 };
 
 

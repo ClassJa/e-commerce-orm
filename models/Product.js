@@ -25,22 +25,24 @@ Product.init(
       type: DataTypes.DECIMAL, 
       allowNull: false,
       validate: {
-        // figure out the method to calidate that the type is decimal
+        isDecimal: true,
       }
     },
     stock: {
       type: DataTypes.INTEGER, 
       allowNull: false, 
       defaultValue: 10,
-      // figure out how to have a default value of 10 , 
+      // figure out how to have a default value of 10,
       validate: {
         isNumeric: true
       }
-      // have a validate that checks that the value is numeric
     }, 
     categoryId: {
       type: DataTypes.INTEGER,
-      references: Category.id
+      references: {
+        model: Category,
+        key: 'id',
+      }
       // is this correct? 
     }
 

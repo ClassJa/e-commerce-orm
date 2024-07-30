@@ -6,8 +6,6 @@ class Category extends Model {}
 
 Category.init(
   {
-    // ??? How to approach (how to know what columns belong here?)
-    // define columns
     id: {
       type: DataTypes.INTEGER,
       autoIncrement: true,
