@@ -5,21 +5,27 @@ const { destroy, create } = require('../../models/Category');
 // The `/api/categories` endpoint
 
 router.get('/categories', async (req, res) => {
+  console.log("Reached!")
+   // find all categories
+  // be sure to include its associated Products
   try {
-    await Category.findAll()
+    await Category.findAll().then((allCategories) => {
+      res.json(allCategories)
+      res.json("All Categories listed!")
+      res.status(200)
+    })
   }
   catch(e) {
     res.json("Error occurred", e)
     res.status(400)
   }
-  res.json("All Categories listed!")
-  res.status(200)
- 
-  // find all categories
-  // be sure to include its associated Products
+  // res.json("All Categories listed!")
+  // res.status(200)
 });
 
 router.get('/:id', async (req, res) => {
+    // find one category by its `id` value
+  // be sure to include its associated Products
   try {
     await Category.findOne({
       where: {
@@ -33,12 +39,10 @@ router.get('/:id', async (req, res) => {
   }
   res.json("Category found!")
   res.status(200)
-  
-  // find one category by its `id` value
-  // be sure to include its associated Products
 });
 
 router.post('/', async (req, res) => {
+    // create a new category
   try {
     await Category.create(
       {
@@ -55,25 +59,23 @@ router.post('/', async (req, res) => {
     res.json("Error occured when trying to create a new category", e)
     res.status(400)
   }
-  // create a new category
 });
 
 router.put('/:id', async (req, res) => {
+    // update a category by its `id` value
   await Category.update(
     {
       id: req.params.body,
       category_name: req.params.body
     },
     // list out the different properties that should get updated
-// req.body
+
   {
     where: {
       id: req.params.id
     },
   }
-  
   // check if this the correct set-up
-  // update a category by its `id` value
 )
 .catch((e) => {
   res.json("Error occurred", e)
@@ -93,7 +95,6 @@ router.delete('/:id', async (req, res) => {
     res.json("Error occurred when trying to delete this category", e)
     res.status(400)
   })
-
   // res._destroy(req.params.id)
   // check if this the correct set-up
   // delete a category by its `id` value
