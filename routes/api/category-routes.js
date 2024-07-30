@@ -53,9 +53,11 @@ router.post('/', (req, res) => {
   // create a new category
 });
 
+// figure out how to add aync and await here
 router.put('/:id', (req, res) => {
   Category.update({
-
+    // list out the different properties that should get updated
+// req.body
   },
   {
     where: {
@@ -73,7 +75,17 @@ res.json("Update completed for id: ", req.params.id)
 });
 
 router.delete('/:id', (req, res) => {
-  destroy(req.params.id)
+  Category.destroy({
+    where: {
+      id: req.params.id
+    }
+  }).then(() => {
+    res.json("Category removed!")
+  })
+  .catch((e) => {
+    res.json("Error occurred when trying to delete this category", e)
+  })
+
   // res._destroy(req.params.id)
   // check if this the correct set-up
   // delete a category by its `id` value
