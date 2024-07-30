@@ -4,23 +4,17 @@ const { destroy, create } = require('../../models/Category');
 
 // The `/api/categories` endpoint
 
-router.get('/categories', async (req, res) => {
-  console.log("Reached!")
+router.get('/', async (req, res) => {
+  // console.log("Reached!")
    // find all categories
   // be sure to include its associated Products
   try {
-    await Category.findAll().then((allCategories) => {
-      res.json(allCategories)
-      res.json("All Categories listed!")
-      res.status(200)
-    })
+    const allCategories = await Category.findAll()
+    res.json(allCategories)
   }
   catch(e) {
     res.json("Error occurred", e)
-    res.status(400)
   }
-  // res.json("All Categories listed!")
-  // res.status(200)
 });
 
 router.get('/:id', async (req, res) => {
