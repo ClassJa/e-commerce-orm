@@ -4,23 +4,24 @@ const { destroy, create } = require('../../models/Category');
 
 // The `/api/categories` endpoint
 
-router.get('/', (req, res) => {
+router.get('/categories', async (req, res) => {
   try {
-    Category.findAll()
+    await Category.findAll()
   }
   catch(e) {
     res.json("Error occurred", e)
-    res.status()
+    res.status(400)
   }
   res.json("All Categories listed!")
+  res.status(200)
  
   // find all categories
   // be sure to include its associated Products
 });
 
-router.get('/:id', (req, res) => {
+router.get('/:id', async (req, res) => {
   try {
-    Category.findOne({
+    await Category.findOne({
       where: {
         id: req.params.id
     },
@@ -28,37 +29,43 @@ router.get('/:id', (req, res) => {
 )}
   catch(e) {
     res.json("Error: ", e)
+    res.status(400)
   }
   res.json("Category found!")
+  res.status(200)
   
   // find one category by its `id` value
   // be sure to include its associated Products
 });
 
-router.post('/', (req, res) => {
+router.post('/', async (req, res) => {
   try {
-    Category.create(
+    await Category.create(
       {
         // id: req.params.id,
         category_name: req.params.body.category_name
       }
     ).then((newCategory) => {
       res.json("New Category created", newCategory)
+      res.status(200)
     })
   }
   // Is this try catch block the right syntax?
   catch(e) {
     res.json("Error occured when trying to create a new category", e)
+    res.status(400)
   }
   // create a new category
 });
 
-// figure out how to add aync and await here
-router.put('/:id', (req, res) => {
-  Category.update({
+router.put('/:id', async (req, res) => {
+  await Category.update(
+    {
+      id: req.params.body,
+      category_name: req.params.body
+    },
     // list out the different properties that should get updated
 // req.body
-  },
   {
     where: {
       id: req.params.id
@@ -74,8 +81,8 @@ router.put('/:id', (req, res) => {
 res.json("Update completed for id: ", req.params.id)
 });
 
-router.delete('/:id', (req, res) => {
-  Category.destroy({
+router.delete('/:id', async (req, res) => {
+  await Category.destroy({
     where: {
       id: req.params.id
     }
@@ -84,6 +91,7 @@ router.delete('/:id', (req, res) => {
   })
   .catch((e) => {
     res.json("Error occurred when trying to delete this category", e)
+    res.statu(400)
   })
 
   // res._destroy(req.params.id)
