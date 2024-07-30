@@ -91,7 +91,7 @@ router.delete('/:id', async (req, res) => {
   })
   .catch((e) => {
     res.json("Error occurred when trying to delete this category", e)
-    res.statu(400)
+    res.status(400)
   })
 
   // res._destroy(req.params.id)
