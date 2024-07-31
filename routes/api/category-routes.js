@@ -9,11 +9,13 @@ router.get('/', async (req, res) => {
    // find all categories
   // be sure to include its associated Products
   try {
-    const allCategories = await Category.findAll()
+    const allCategories = await Category.findAll({include: [
+      Product
+    ]})
     res.json(allCategories)
   }
   catch(e) {
-    res.json("Error occurred", e)
+    res.status(400).json(e)
   }
 });
 
@@ -30,7 +32,7 @@ router.get('/:id', async (req, res) => {
 res.json(foundCategory)
 }
   catch(e) {
-    res.json("Error: ", e)
+    res.status(400).json(e)
   }
 });
 

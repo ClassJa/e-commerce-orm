@@ -11,64 +11,59 @@ router.get('/', async (req, res) => {
     res.json(allTags)
   }
   catch(e) {
-    res.json("Error occurred", e)
+    res.status(400).json(e)
   }
 });
 
 router.get('/:id', async (req, res) => {
+  // find a single tag by its `id`
+  // be sure to include its associated Product data
   try {
-    await Tag.findOne({
+    const oneTag = await Tag.findOne({
       where: {
         id: req.params.id
       },
     })
+    res.json(oneTag)
   }
   catch(e) {
-    res.json("Error", e)
-    res.status(400)
+    res.status(400).json(e)
   }
-  res.json("Tag found!")
-  res.status(200)
-  // find a single tag by its `id`
-  // be sure to include its associated Product data
 });
 
 router.post('/', async (req, res) => {
   // create a new tag
   try {
-    await Tag.create(
+    const newTag = await Tag.create(
       {
-        tag_name: req.params.body.tag_name
+        tag_name: req.body.tag_name
       }
-    ).then((newTag) => {
-      res.json("New Tag created", newTag)
-      res.status(200)
-    })
+    )
+    res.json(newTag)
   }
-  catch(e) {
-    res.json("Error occured when trying to create a new Tag")
-    res.status(400)
-  }
+    catch(e) {
+      res.status(400).json(e)
+    }
 });
 
 router.put('/:id', async (req, res) => {
   // update a tag's name by its `id` value
-  await Tag.update(
+  try {
+    const updatedTag = await Tag.update(
     {
-      id: req.params.body,
-      tag_name: req.params.body
+      tag_name: req.body.tag_name
     },
     {
       where: {
         id: req.params.id
-      },
+      }
     }
   )
-  .catch((e) => {
-    res.json("Error occurred", e)
-  })
-  res.json("Update completed for id: ", req.params.id)
-
+  res.json(updatedTag)
+}
+catch(e) {
+  res.status(400).json(e)
+}
 });
 
 router.delete('/:id', async (req, res) => {
