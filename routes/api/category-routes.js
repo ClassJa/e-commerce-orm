@@ -45,7 +45,6 @@ router.post('/', async (req, res) => {
         category_name: req.body.category_name
       }
     )
-    console.log(newCategory)
     res.json(newCategory)
   }
   catch(e) {

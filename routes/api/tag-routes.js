@@ -1,5 +1,6 @@
 const router = require('express').Router();
 const { Tag, Product, ProductTag } = require('../../models');
+const { destroy, create } = require('../../models/ProductTag');
 
 // The `/api/tags` endpoint
 
@@ -56,7 +57,7 @@ router.put('/:id', async (req, res) => {
     {
       where: {
         id: req.params.id
-      }
+      },
     }
   )
   res.json(updatedTag)
@@ -67,18 +68,15 @@ catch(e) {
 });
 
 router.delete('/:id', async (req, res) => {
-  // delete on tag by its `id` value
-  await Tag.destroy({
+  const removeTag = await Tag.destroy({
     where: {
       id: req.params.id
     }
-  }).then(() => {
+})
     res.json("Tag removed!")
-  })
-  .catch((e) => {
-    res.json("Error occurred when trying to delete this category", e)
-    res.status(400)
-  })
-});
+catch(e){
+    res.status(400).json(e)
+  }
+})
 
 module.exports = router;
