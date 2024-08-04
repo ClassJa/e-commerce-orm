@@ -44,21 +44,17 @@ res.json(productGot)
 });
 
 // create new product
-router.post('/', (req, res) => {
+router.post('/', async (req, res) => {
   try {
-    ProductTag.create(
-      {
-        // id: req.params.id,
-        category_name: req.params.body.category_name
-      }
-    ).then((newCategory) => {
-      res.json(newCategory)
-    })
+    const newProduct = await Product.create(req.body.category_name);
+    res.status(200).json(newProduct);
   }
-  // Is this try catch block the right syntax?
   catch(e) {
     res.status(400).json(e)
   }
+  
+
+
   /* req.body should look like this...
     {
       product_name: "Basketball",
@@ -67,6 +63,10 @@ router.post('/', (req, res) => {
       tagIds: [1, 2, 3, 4]
     }
   */
+
+
+
+
   Product.create(req.body)
     .then((product) => {
       // if there's product tags, we need to create pairings to bulk create in the ProductTag model
