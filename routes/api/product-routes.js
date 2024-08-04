@@ -21,46 +21,43 @@ router.get('/', async (req, res) => {
     res.json(allProducts)
   }
   catch(e) {
-    res.json("Error occurred", e)
+    res.status(400).json
   }
 });
 
 // get one product
 router.get('/:id', async (req, res) => {
   try {
-    await ProductTag.findOne({
+    const productGot = await ProductTag.findOne({
       where: {
         id: req.params.id
     },
 }
-)}
+)
+res.json(productGot)
+}
   catch(e) {
-    res.json("Error: ", e)
-    res.status(400)
+    res.status(400).json(e)
   }
-  res.json("Product tag found!")
-  res.status(200)
   // find a single product by its `id`
   // be sure to include its associated Category and Tag data
 });
 
 // create new product
-router.post('/', async (req, res) => {
+router.post('/', (req, res) => {
   try {
-    await ProductTag.create(
+    ProductTag.create(
       {
         // id: req.params.id,
         category_name: req.params.body.category_name
       }
     ).then((newCategory) => {
-      res.json("New Product tag created", newCategory)
-      res.status(200)
+      res.json(newCategory)
     })
   }
   // Is this try catch block the right syntax?
   catch(e) {
-    res.json("Error occured when trying to create a new Product tag", e)
-    res.status(400)
+    res.status(400).json(e)
   }
   /* req.body should look like this...
     {
