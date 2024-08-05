@@ -81,9 +81,9 @@ router.delete('/:id', (req, res) => {
     {
       where: {
       id: req.params.id
-    }
-  }
-)
+    },
+  })
+  res.status(200).json()
 }
 catch(e){
   res.status(400).json(e)

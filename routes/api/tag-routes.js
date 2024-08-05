@@ -31,17 +31,16 @@ router.get('/:id', async (req, res) => {
   // be sure to include its associated Product data
 });
 
-router.post('/', (req, res) => {
+router.post('/', async (req, res) => {
   // create a new tag
   try {
-    Tag.create(
+    const newT = await Tag.create(
       {
-        tag_name: req.params.body.tag_name
+        tag_name: req.body.tag_name
       }
-    ).then((newTag) => {
-      res.json(newTag)
-    })
-  }
+    )
+    res.status(200).json(newT)
+    }
   catch(e) {
     res.status(400).json(e)
   }
@@ -51,8 +50,13 @@ router.put('/:id', async (req, res) => {
   // update a tag's name by its `id` value
   try {
     const uTag = await Tag.update(
+      {
+        tag_name: req.body.tag_name
+      },
     {
-      id: req.params.bo
+      where: {
+        id: req.params.id
+      }
     }
   )
   res.json(uTag)
@@ -64,12 +68,15 @@ router.put('/:id', async (req, res) => {
 });
 
 router.delete('/:id', async (req, res) => {
-  try {
-    Tag.destroy({
-    where: {
-      id: req.params.id
-    }
-  })
+  try { 
+    const de = await 
+    Tag.destroy(
+      {
+        where: {
+        id: req.params.id
+      },
+    })
+    res.status(200).json(de)
 }
 catch(e){
   res.status(400).json(e)

@@ -46,7 +46,7 @@ res.json(productGot)
 // create new product
 router.post('/', async (req, res) => {
   try {
-    const newProduct = await Product.create(req.body.category_name);
+    const newProduct = await Product.create(req.body);
     res.status(200).json(newProduct);
   }
   catch(e) {
@@ -135,14 +135,17 @@ router.put('/:id', (req, res) => {
 });
 
 router.delete('/:id', async (req, res) => {
-  await ProductTag.destroy({
-    where: {
-      id: req.params.id
-    }
-  }).then(() => {
-    res.json("Product tag removed!")
-    res.status(200)
-  })
+  try{
+    const deletedProd = await Product.destroy({
+      where: {
+        id: req.params.id
+      },
+    })
+    res.status(200).json(deletedProd)
+  } 
+  catch(e) {
+  res.status(400).json(e)
+  }
 
   // delete one product by its `id` value
 });
